@@ -138,7 +138,8 @@ function createPost()
         $title = $_POST['title'];
         $author = $_POST['author'];
 
-        $image = $_FILES['image']['name'];
+        $temp = explode(".", $_FILES["image"]["name"]);
+        $image = $author . '.' . end($temp);
         $temp_image = $_FILES['image']['tmp_name'];
 
         $content = $_POST['content'];
@@ -168,7 +169,8 @@ function updatePost()
         $title = $_POST['title'];
         $author = $_POST['author'];
 
-        $image = $_FILES['image']['name'];
+        $temp = explode(".", $_FILES["image"]["name"]);
+        $image = $author . '.' . end($temp);
         $temp_image = $_FILES['image']['tmp_name'];
 
         $content = $_POST['content'];
@@ -376,7 +378,8 @@ function addUser()
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $avatar = $_FILES['avatar']['name'];
+        $temp = explode(".", $_FILES["avatar"]["name"]);
+        $avatar = $_SESSION['user_id'] . '.' . end($temp);
         $temp_avatar = $_FILES['avatar']['tmp_name'];
 
         $role = $_POST['role'];
