@@ -139,7 +139,7 @@ function createPost()
         $author = $_POST['author'];
 
         $temp = explode(".", $_FILES["image"]["name"]);
-        $image = $author . '.' . end($temp);
+        $image = $author . '-' . $title . '.' . end($temp);
         $temp_image = $_FILES['image']['tmp_name'];
 
         $content = $_POST['content'];
@@ -170,7 +170,7 @@ function updatePost()
         $author = $_POST['author'];
 
         $temp = explode(".", $_FILES["image"]["name"]);
-        $image = $author . '.' . end($temp);
+        $image = $author . '-' . $title . '.' . end($temp);
         $temp_image = $_FILES['image']['tmp_name'];
 
         $content = $_POST['content'];
