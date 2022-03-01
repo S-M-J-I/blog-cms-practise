@@ -25,10 +25,6 @@ if (!isset($_POST['edit_post'])) {
             <input class="form-control" type="text" name="title" placeholder="Write your post title here" value=<?php echo $post['title'] ?>>
         </div>
         <div class="form-group">
-            <label for="author">Author:</label>
-            <input class="form-control" type="text" name="author" value=<?php echo $post['author'] ?>>
-        </div>
-        <div class="form-group">
             <label for="image">Image:</label>
             <img width="100" src="../images/<?php echo $post['image'] ?>" alt="">
             <input class="form-control" type="file" name="image" value=<?php echo $post['image'] ?>>

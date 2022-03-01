@@ -2,13 +2,18 @@
 
 function printPosts($row_value)
 {
+    global $connection;
     $content_preview = substr($row_value['content'], 0, 150);
+    $author_id = $row_value['author'];
+    $query = "SELECT * FROM users WHERE user_id=$author_id";
+    $res = mysqli_query($connection, $query) or die("Query Failed" . mysqli_error($connection));
+    $author_id = mysqli_fetch_assoc($res)['username'];
     echo "
             <h2>
                 <a href='/cms/post.php?id={$row_value['post_id']}'>{$row_value['title']}</a>
             </h2>
             <p class='lead'>
-                by <a href='index.php'>{$row_value['author']}</a>
+                by <a href='index.php'>{$author_id}</a>
             </p>
             <p><span class='glyphicon glyphicon-time'></span> Posted on {$row_value['date']}</p>
             <hr>
@@ -42,22 +47,34 @@ function getPost($id)
     return mysqli_fetch_assoc($result);
 }
 
+function getUserById($id)
+{
+    global $connection;
+    $query = "SELECT * FROM users WHERE user_id=$id";
+    $result = mysqli_query($connection, $query) or die("Query Failed " . mysqli_error($connection));
+
+    return mysqli_fetch_assoc($result);
+}
+
+
+
 // * Gets all the approved comments of a post
 function getAllComments($id)
 {
     global $connection;
-    $query = "SELECT * FROM comments WHERE comment_post_id='$id' AND status='true'";
+    $query = "SELECT * FROM comments WHERE comment_post_id='$id' AND status='true' ORDER BY comment_date DESC";
     $result = mysqli_query($connection, $query) or die("Query Failed " . mysqli_error($$connection));
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
+            $commenter = getUserById($row['author']);
             echo "
             <div class='media'>
                 <a class='pull-left' href='#'>
-                    <img class='media-object' width='64px' src='./images/avatars/demo.png' alt=''>
+                    <img class='media-object' width='64px' src='./images/avatars/{$commenter['avatar']}' alt=''>
                 </a>
                 <div class='media-body'>
-                    <h4 class='media-heading'>{$row['author']}
+                    <h4 class='media-heading'>{$commenter['username']}
                     <small>" . date_format(date_create($row['comment_date']), "F dS, Y") . "</small>
                     </h4>
                     {$row['content']}
@@ -72,12 +89,10 @@ function getAllComments($id)
 function postComment($post_id)
 {
     global $connection;
-    echo $post_id;
+    $user_id = $_SESSION['user_id'];
 
-    // TODO: change author later (insert into author as well)
-    $mail = "jdoe@gmail.com";
-    $query = $connection->prepare("INSERT INTO comments(`comment_post_id`, `comment_date`, `email`, `content`) VALUES(?,?,?,?)");
-    $query->bind_param("isss", $post_id, date("Y-m-d"), $mail, $_POST['content']);
+    $query = $connection->prepare("INSERT INTO comments(`comment_post_id`, `comment_date`, `author`, `content`) VALUES(?,?,?,?)");
+    $query->bind_param("isis", $post_id, date("Y-m-d"), $user_id, $_POST['content']);
     $result = $query->execute() or die("Failed " . mysqli_error($connection));
 
     if ($result) {

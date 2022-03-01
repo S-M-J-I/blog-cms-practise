@@ -13,10 +13,6 @@
             <input class="form-control" type="text" name="title" placeholder="Write your post title here">
         </div>
         <div class="form-group">
-            <label for="author">Author:</label>
-            <input class="form-control" type="text" name="author">
-        </div>
-        <div class="form-group">
             <label for="image">Image:</label>
             <input class="form-control" type="file" name="image">
         </div>

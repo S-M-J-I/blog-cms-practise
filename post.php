@@ -23,7 +23,9 @@ $post = getPost($id);
 
             <!-- Author -->
             <p class="lead">
-                by <a href="#"><?php echo $post['author'] ?></a>
+                by <a href="#"><?php
+                                echo $author = getUserById($post['author'])['username']
+                                ?></a>
             </p>
 
             <hr>

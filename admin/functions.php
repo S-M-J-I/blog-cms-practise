@@ -136,7 +136,7 @@ function createPost()
     if (isset($_POST['add_post'])) {
         $category = $_POST['post_category_id'];
         $title = $_POST['title'];
-        $author = $_POST['author'];
+        $author = $_SESSION['user_id'];
 
         $temp = explode(".", $_FILES["image"]["name"]);
         $image = $author . '-' . $title . '.' . end($temp);
@@ -167,7 +167,7 @@ function updatePost()
         $post_id = $_POST['post_id'];
         $category = $_POST['post_category_id'];
         $title = $_POST['title'];
-        $author = $_POST['author'];
+        $author = $_SESSION['user_id'];
 
         $temp = explode(".", $_FILES["image"]["name"]);
         $image = $author . '-' . $title . '.' . end($temp);
@@ -279,7 +279,6 @@ function getAllCommentsInATable()
                     <td>{$row['comment_id']}</td>
                     <td><a target='_blank' href='/cms/post.php?id={$post['post_id']}'>" . $post['title'] . "</a></td>
                     <td>{$row['author']}</td>
-                    <td>{$row['email']}</td>
                     <td>{$row['content']}</td>
                     <td>{$row['comment_date']}</td>
                     <td>" .
