@@ -2,7 +2,6 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Author</th>
             <th>Title</th>
             <th>Category</th>
             <th>Image</th>

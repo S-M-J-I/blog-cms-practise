@@ -31,9 +31,12 @@ if (!isset($_SESSION['username'])) {
                                 <i class="fa fa-dashboard"></i> <a href="/cms/admin">Dashboard</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-file"></i> Blank Page
+                                <i class="fa fa-file"></i> Stats
                             </li>
                         </ol>
+                        <?php $stats = getAdminStats(); ?>
+                        <h4><strong>Post: </strong><?php echo $stats['num_of_posts'] ?></h4>
+                        <h4><strong>Comments: </strong><?php echo $stats['comment_count'] ?></h4>
                     </div>
                 </div>
                 <!-- /.row -->

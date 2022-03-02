@@ -13,9 +13,9 @@ function printPosts($row_value)
                 <a href='/cms/post.php?id={$row_value['post_id']}'>{$row_value['title']}</a>
             </h2>
             <p class='lead'>
-                by <a href='index.php'>{$author_id}</a>
+                by <a href='search.php?author={$row_value['author']}'>{$author_id}</a>
             </p>
-            <p><span class='glyphicon glyphicon-time'></span> Posted on {$row_value['date']}</p>
+            <p><span class='glyphicon glyphicon-time'></span> Posted on " . date_format(date_create($row_value['date']), "dS F, Y") . "</p>
             <hr>
             <img class='img-responsive' src='images/{$row_value['image']}' alt='' style='object-fit: cover;'>
             <hr>
@@ -25,6 +25,52 @@ function printPosts($row_value)
             <hr>
         ";
 }
+
+function displaySearchItems($search)
+{
+    global $connection;
+
+    $query = "SELECT * FROM posts WHERE tags LIKE '%$search%' ORDER BY date DESC";
+    $result = mysqli_query($connection, $query) or die("Query Failed " . mysqli_error($connection));
+
+    if ($result) {
+        $count = mysqli_num_rows($result);
+
+        if ($count == 0) {
+            echo "<h1>NO RESULT</h1>";
+        } else {
+            echo "<h1 class='page-header'>Found {$count} results for: <small>{$search}</small></h1>";
+            while ($row = mysqli_fetch_assoc($result)) {
+                printPosts($row);
+            }
+        }
+    }
+}
+
+
+function displaySearchItemsByAuthor($search)
+{
+    global $connection;
+
+    $query = "SELECT * FROM posts WHERE author=$search ORDER BY date DESC";
+    $result = mysqli_query($connection, $query) or die("Query Failed " . mysqli_error($connection));
+
+    if ($result) {
+        $count = mysqli_num_rows($result);
+
+        if ($count == 0) {
+            echo "<h1>NO RESULT</h1>";
+        } else {
+            echo "<h1 class='page-header'>Found {$count} results for: <small>" . getUserById($search)["username"] . "</small></h1>";
+            while ($row = mysqli_fetch_assoc($result)) {
+                printPosts($row);
+            }
+        }
+    }
+}
+
+
+
 
 function getAllPosts()
 {
@@ -75,7 +121,7 @@ function getAllComments($id)
                 </a>
                 <div class='media-body'>
                     <h4 class='media-heading'>{$commenter['username']}
-                    <small>" . date_format(date_create($row['comment_date']), "F dS, Y") . "</small>
+                    <small>" . date_format(date_create($row['comment_date']), "dS F, Y") . "</small>
                     </h4>
                     {$row['content']}
                 </div>

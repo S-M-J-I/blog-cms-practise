@@ -234,7 +234,8 @@ function getSelectCategoryById($idTarget)
 function getAllPostsInATable()
 {
     global $connection;
-    $query = "SELECT * FROM posts";
+    $id = $_SESSION['user_id'];
+    $query = "SELECT * FROM posts WHERE author=$id";
     $result = mysqli_query($connection, $query) or die("Query Failed");
 
     if ($result) {
@@ -242,7 +243,6 @@ function getAllPostsInATable()
             echo "
             <tr>
                 <td>{$row['post_id']}</td>
-                <td>{$row['author']}</td>
                 <td>{$row['title']}</td>
                 <td>" . getCategoryById($row['post_category_id']) . "</td>
                 <td><img width=100 class='img-responsive' src='../images/{$row['image']}' alt='post image' /></td>
@@ -264,7 +264,8 @@ function getAllCommentsInATable()
 {
     global $connection;
 
-    $query = "SELECT * FROM comments";
+    $id = $_SESSION['user_id'];
+    $query = "SELECT * FROM comments WHERE comment_post_id IN (SELECT post_id FROM posts WHERE author=$id)";
     $result = mysqli_query($connection, $query) or die("Query Failed" . mysqli_error($connection));
 
     if ($result) {
@@ -414,7 +415,6 @@ function editUser()
         $query->bind_param("sssi", $username, $email, $password, $id);
         $res = $query->execute() or die("Query Failed" . mysqli_error($connection));
 
-        // TODO: add image update as well
 
         if ($res) {
             header("Location: profile.php");
@@ -435,7 +435,6 @@ function editUser()
         $query->bind_param("si", $avatar, $id);
         $res = $query->execute() or die("Query Failed" . mysqli_error($connection));
 
-        // TODO: add image update as well
 
         if ($res) {
             header("Location: profile.php");
@@ -458,4 +457,19 @@ function deleteUser()
     if ($res) {
         header("Location: users.php");
     }
+}
+
+
+
+
+
+// * get admin stats
+function getAdminStats()
+{
+    global $connection;
+    $user_id = $_SESSION['user_id'];
+    $query = "SELECT COUNT(post_id) as num_of_posts, SUM(comment_count) as comment_count FROM posts p WHERE author=$user_id";
+    $result = mysqli_query($connection, $query) or die("Failed" . mysqli_error($connection));
+
+    return mysqli_fetch_assoc($result);
 }

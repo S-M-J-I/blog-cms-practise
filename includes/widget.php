@@ -8,6 +8,10 @@
             <input name="password" type="password" class="form-control" placeholder="Enter password">
         </div>
         <div class="form-group">
+            <input name="remember" type="checkbox">
+            <label for="remember"> Remember me for a week</label>
+        </div>
+        <div class="form-group">
             <button name="login" class="btn btn-primary" type="submit">Login</button>
         </div>
     </form>

@@ -26,6 +26,15 @@ if (isset($_POST['login'])) {
                 }
 
                 if ($row['role'] != "Admin") {
+
+                    if (isset($_POST['remember'])) {
+                        $expiration = time() + (60 * 60 * 24 * 7);
+                        setcookie("user_id", $_SESSION['user_id'], $expiration);
+                        setcookie("username", $_SESSION['username'], $expiration);
+                        setcookie("first_name", $_SESSION['first_name'], $expiration);
+                        setcookie("last_name", $_SESSION['last_name'], $expiration);
+                        setcookie("role", $_SESSION['role'], $expiration);
+                    }
                     header("Location: /cms");
                 } else {
                     header("Location: /cms/admin");
