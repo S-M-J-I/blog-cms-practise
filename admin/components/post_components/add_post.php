@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label for="content">Content:</label>
-            <textarea class="form-control" cols="30" rows="10" type="text" name="content" placeholder="Write your post content here"></textarea>
+            <textarea class="form-control" cols="30" id="body" rows="100" type="text" name="content" placeholder="Write your post content here"></textarea>
         </div>
         <div class="form-group">
             <label for="tags">Tags:</label>

@@ -20,7 +20,7 @@ function printPosts($row_value)
             <img class='img-responsive' src='images/{$row_value['image']}' alt='' style='object-fit: cover;'>
             <hr>
             <p>{$content_preview}</p>
-            <a class='btn btn-primary' href='#'>Read More <span
+            <a class='btn btn-primary' href='post.php?id={$row_value['post_id']}'>Read More <span
                     class='glyphicon glyphicon-chevron-right'></span></a>
             <hr>
         ";

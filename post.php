@@ -36,7 +36,7 @@ $post = getPost($id);
             <hr>
 
             <!-- Preview Image -->
-            <img class="img-responsive" src=<?php echo "images/" . $post['image']; ?> alt="thumbnail">
+            <img class="img-responsive" src="images/<?php echo $post['image'] ?>" alt="thumbnail">
 
             <hr>
 

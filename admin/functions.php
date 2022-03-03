@@ -469,7 +469,15 @@ function getAdminStats()
     global $connection;
     $user_id = $_SESSION['user_id'];
     $query = "SELECT COUNT(post_id) as num_of_posts, SUM(comment_count) as comment_count FROM posts p WHERE author=$user_id";
-    $result = mysqli_query($connection, $query) or die("Failed" . mysqli_error($connection));
+    $result1 = mysqli_query($connection, $query) or die("Failed" . mysqli_error($connection));
 
-    return mysqli_fetch_assoc($result);
+    $query = "SELECT COUNT(*) as num_of_users FROM users";
+    $result2 = mysqli_query($connection, $query) or die("Query Failed " . mysqli_error($connection));
+
+    $query = "SELECT COUNT(*) as num_of_cat FROM categories";
+    $result3 = mysqli_query($connection, $query) or die("Query Failed " . mysqli_error($connection));
+
+
+    $result = array_merge(mysqli_fetch_assoc($result1), mysqli_fetch_assoc($result2), mysqli_fetch_assoc($result3));
+    return $result;
 }
