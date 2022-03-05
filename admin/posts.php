@@ -19,6 +19,18 @@
                             <small><?php echo $_SESSION['username']; ?></small>
                         </h1>
 
+                        <!-- TODO: fix the selection bug -->
+                        <select name="bulk" id="bulk_select">
+                            <option>Select</option>
+                            <option id="draft" value="draft">By Draft</option>
+                            <option id="comments" value="comments">By Comments</option>
+                        </select>
+
+                        <a class="btn btn-danger" href="posts.php">Reset</a>
+
+                        <br>
+                        <hr>
+
                         <?php
                         if (isset($_GET['source'])) {
                             $source = $_GET['source'];
@@ -43,6 +55,11 @@
                                     break;
                                 }
 
+                            case 'filter': {
+                                    include "components/post_components/filter_posts.php";
+                                    break;
+                                }
+
                             default: {
                                     include "components/post_components/view_all_posts.php";
                                     break;
@@ -64,11 +81,10 @@
 
         <!-- jQuery -->
         <script src="js/jquery.js"></script>
-
+        <script src="js/bulk-select.js"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="js/bootstrap.min.js"></script>
         <script src="js/scripts.js"></script>
-
 </body>
 
 </html>

@@ -259,6 +259,54 @@ function getAllPostsInATable()
 }
 
 
+function getAllFilteredPostsInATable()
+{
+    global $connection;
+    $id = $_SESSION['user_id'];
+    $filter = "";
+    /* 
+            - draft for draft status
+            - comments for sort by highest to lowest comments
+        */
+    $case = $_GET["by"];
+    if ($case == "all") {
+        header("Location: posts.php");
+        return;
+    }
+    switch ($case) {
+        case "draft": {
+                $filter = "AND status='draft'";
+                break;
+            }
+        case "comments": {
+                $filter = "ORDER BY comment_count DESC";
+                break;
+            }
+    }
+    $query = "SELECT * FROM posts WHERE author=$id " . $filter;
+    $result = mysqli_query($connection, $query) or die("Query Failed" . mysqli_error($connection));
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "
+            <tr>
+                <td>{$row['post_id']}</td>
+                <td>{$row['title']}</td>
+                <td>" . getCategoryById($row['post_category_id']) . "</td>
+                <td><img width=100 class='img-responsive' src='../images/{$row['image']}' alt='post image' /></td>
+                <td>{$row['tags']}</td>
+                <td>{$row['comment_count']}</td>
+                <td>{$row['date']}</td>
+                <td>{$row['status']}</td>
+                <td><a href='posts.php?source=edit_post&id={$row['post_id']}'>Edit</a></td>
+                <td><a href='posts.php?source=delete_post&id={$row['post_id']}' style='color: red;'>Delete</a></td>
+            </tr>
+            ";
+        }
+    }
+}
+
+
 // * for comments.php
 function getAllCommentsInATable()
 {
