@@ -15,6 +15,9 @@
             <button name="login" class="btn btn-primary" type="submit">Login</button>
         </div>
     </form>
+    <h6>Don't have an account? <strong><a href="registration.php">Sign Up</a></strong></h6>
+
+    <!-- This code validates user login -->
     <?php
     if (isset($_SESSION['valid'])) {
         if (!$_SESSION['valid']) {

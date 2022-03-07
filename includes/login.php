@@ -1,5 +1,6 @@
 <?php include "db.php" ?>
 <?php session_start(); ?>
+<?php include "secret.php" ?>
 <?php
 
 if (isset($_POST['login'])) {
@@ -8,6 +9,7 @@ if (isset($_POST['login'])) {
 
     $username = mysqli_real_escape_string($connection, $username);
     $password = mysqli_real_escape_string($connection, $password);
+    $password = hash_password($password);
 
     $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
     $res = mysqli_query($connection, $query) or die("Query Failed" . mysqli_error($connection));

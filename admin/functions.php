@@ -1,5 +1,7 @@
 <?php
 
+include "../includes/secret.php";
+
 // * FOR categories.php
 
 function getAllCategories()
@@ -456,7 +458,7 @@ function editUser()
     if (isset($_GET['target']) && (strcmp($_GET['target'], "details") == 0)) {
         $username = isset($_POST['username']) ? $_POST['username'] : $_SESSION['username'];
         $email = $_POST['email'];
-        $password = $_POST['password'];
+        $password = hash_password($_POST['password']);
         $id = $_SESSION['user_id'];
 
         $query = $connection->prepare("UPDATE users SET username=?, email=?, password=? WHERE user_id=?");

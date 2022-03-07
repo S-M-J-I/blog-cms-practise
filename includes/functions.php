@@ -1,5 +1,40 @@
 <?php
 
+include "secret.php";
+
+
+// * This function will register a user
+function registerUser()
+{
+    global $connection;
+    if (isset($_POST["submit"])) {
+
+        $first_name = $_POST["first_name"];
+        $last_name = $_POST["last_name"];
+        $username = $_POST["username"];
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+
+        $first_name = mysqli_real_escape_string($connection, $first_name);
+        $last_name = mysqli_real_escape_string($connection, $last_name);
+        $username = mysqli_real_escape_string($connection, $username);
+        $email = mysqli_real_escape_string($connection, $email);
+        $password = mysqli_real_escape_string($connection, $password);
+        $password = hash_password($password);
+        $role = "Subscriber";
+
+        $query = $connection->prepare("INSERT INTO users(`username`, `password`, `first_name`, `last_name`, `email`, `role`) VALUES(?,?,?,?,?,?)");
+        $query->bind_param("ssssss", $username, $password, $first_name, $last_name, $email, $role);
+        $res = $query->execute() or die("Query Failed " . mysqli_error($connection));
+
+        if ($res) {
+            echo "<h5 style='color: green;'>User has been registered</h5>";
+        }
+    }
+}
+
+
+// * This function will print posts
 function printPosts($row_value)
 {
     global $connection;
