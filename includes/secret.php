@@ -1,9 +1,10 @@
 <?php
 function hash_password($password)
 {
-    $hashformat = "$2y$10$";
-    $salt = "verycrazystring1234567";
-    $hashformat_and_salt =  $hashformat . $salt;
+    global $connection;
+    $query = "SELECT randSalt FROM users";
+    $res = mysqli_query($connection, $query);
+    $row = mysqli_fetch_array($res);
 
-    return crypt($password, $hashformat_and_salt);
+    return crypt($password, $row["randSalt"]);
 }
