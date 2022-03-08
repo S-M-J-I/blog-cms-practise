@@ -81,7 +81,7 @@
 
         <!-- jQuery -->
         <script src="js/jquery.js"></script>
-        <script src="js/bulk-select.js"></script>
+        <script src="js/posts-options.js"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="js/bootstrap.min.js"></script>
         <script src="js/scripts.js"></script>

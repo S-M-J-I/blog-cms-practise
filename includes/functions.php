@@ -104,8 +104,42 @@ function displaySearchItemsByAuthor($search)
     }
 }
 
+function getPostsCount()
+{
+    global $connection;
+    $query = "SELECT COUNT(*) num FROM posts";
+    $result = mysqli_query($connection, $query) or die("Query Failed");
+
+    return mysqli_fetch_assoc($result)["num"];
+}
 
 
+
+function getAllPaginationPosts()
+{
+    global $connection;
+    // ? see recent posts first
+
+    $page = "";
+    if (isset($_GET["page"])) {
+        $page = $_GET["page"];
+    }
+
+    if ($page == "" || $page == 1) {
+        $page_1 = 0;
+    } else {
+        $page_1 = ($page * 5) - 5;
+    }
+
+    $per_page = 5;
+
+    $query = "SELECT * FROM posts ORDER BY date DESC LIMIT $page_1, $per_page";
+    $result = mysqli_query($connection, $query) or die("Query Failed");
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo printPosts($row);
+    }
+}
 
 function getAllPosts()
 {

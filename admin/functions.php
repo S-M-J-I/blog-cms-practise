@@ -253,7 +253,7 @@ function getAllPostsInATable()
                 <td>{$row['date']}</td>
                 <td>{$row['status']}</td>
                 <td><a href='posts.php?source=edit_post&id={$row['post_id']}'>Edit</a></td>
-                <td><a href='posts.php?source=delete_post&id={$row['post_id']}' style='color: red;'>Delete</a></td>
+                <td><a onClick=\"javascript: return confirm('Are you sure you want to delete this post?');\" href='posts.php?source=delete_post&id={$row['post_id']}' style='color: red;'>Delete</a></td>
             </tr>
             ";
         }
